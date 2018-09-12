@@ -1,0 +1,22 @@
+[[source]]
+
+verify_ssl = true
+url = "https://pypi.python.org/simple"
+name = "pypi"
+
+
+[packages]
+
+mkdir_p = "*"
+
+
+[dev-packages]
+
+"flake8" = "*"
+"flake8-config-yoctol" = "==0.0.8"
+ipdb = "*"
+
+
+[requires]
+
+python_version = "3.6"
