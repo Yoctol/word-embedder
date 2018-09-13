@@ -1,5 +1,4 @@
 from abc import abstractmethod
-from typing import Dict
 
 import numpy as np
 
@@ -33,15 +32,5 @@ class BaseEmbedder:
     @abstractmethod
     def get_word(self, index: int) -> str:
         """Return word
-        """
-        raise NotImplementedError
-
-    @abstractmethod
-    def map(self, word2index: Dict[str, int]) -> np.ndarray:
-        """Return a word embedding matrix
-
-            Stack word vectors adhere to the order of index
-            provided by the input word2index.
-
         """
         raise NotImplementedError
