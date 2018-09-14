@@ -24,5 +24,5 @@ class Library:
         if name not in self.library:
             KeyError('Embedder [{}] is not found'.format(name))
         else:
-            self.library[name] = self.library[name].build()
+            self.library[name].build()
             return self.library[name]

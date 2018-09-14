@@ -3,7 +3,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from .library import Library
-from .fasttext import FastText
+from .fasttext_light import FastTextLight
 
 
 load_dotenv()
@@ -13,6 +13,6 @@ ROOT_DIR = path.parent
 
 lib = Library()
 lib.register(
-    'ChineseFastText',
-    FastText(path=str(ROOT_DIR.joinpath('data/ft.zh.300.vec').resolve())),
+    'ChineseFastTextLight',
+    FastTextLight(path=str(ROOT_DIR.joinpath('data/ft.zh.300.vec').resolve())),
 )

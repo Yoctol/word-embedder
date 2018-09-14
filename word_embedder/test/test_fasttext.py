@@ -10,11 +10,7 @@ from ..oov_error import OOVError
 ROOT_DIR = dirname(abspath(__file__))
 
 
-class FastTextTestCase(TestCase):
-
-    def setUp(self):
-        self.embedder = FastText(
-            path=join(ROOT_DIR, 'data/fasttext.vec'))
+class FastTextTestTemplate:
 
     def test_correctly_create_instance(self):
         self.assertEqual(
@@ -110,3 +106,10 @@ class FastTextTestCase(TestCase):
         with self.assertRaises(TypeError):
             self.embedder[12.3]
             self.embedder[[123]]
+
+
+class FastTextTestCase(FastTextTestTemplate, TestCase):
+
+    def setUp(self):
+        self.embedder = FastText(
+            path=join(ROOT_DIR, 'data/fasttext.vec'))
