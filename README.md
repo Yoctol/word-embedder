@@ -22,19 +22,17 @@ Get pretrained word embedding
 ## Usage
 
 ### Lookup all existed embedders
-
 ```python
 
 from word_embedder import lib
 
-lib.list_all_embedders()
+lib.list_all_embedders()  # returns a list of embedder name
 
 ```
 
 ### Use an existed embedder
 
 1. load an embedder called OHOH
-
 ```python
 
 from word_embedder import lib
@@ -47,8 +45,7 @@ embedder = lib[name]
 2. extract a word vector
 
 - (1) given a word 'juice' (str)
-
-    ```python=
+    ```python
 
     word = 'juice'
     embedder[word]  # returns the corresponding word vector
@@ -59,7 +56,6 @@ embedder = lib[name]
     ```
 
 - (2) given an index 3 (int)
-
     ```python
 
     index = 3
