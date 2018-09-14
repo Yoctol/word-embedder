@@ -18,7 +18,21 @@ class FastTextTestCase(TestCase):
 
     def test_correctly_create_instance(self):
         self.assertEqual(
-            set(['_embedding_size', '_vocab_size',
+            set(['_path', '_is_built']),
+            set(self.embedder.__dict__.keys()),
+        )
+        self.assertEqual(
+            join(ROOT_DIR, 'data/fasttext.vec'),
+            self.embedder._path,
+        )
+        self.assertFalse(self.embedder._is_built)
+
+    def test_build(self):
+        self.embedder.build()
+        self.assertTrue(self.embedder._is_built)
+        self.assertEqual(
+            set(['_path', '_is_built',
+                 '_embedding_size', '_vocab_size',
                  '_word_vectors', '_vocab_list']),
             set(self.embedder.__dict__.keys()),
         )
@@ -40,9 +54,11 @@ class FastTextTestCase(TestCase):
         )
 
     def test_vocab_size(self):
+        self.embedder.build()
         self.assertEqual(5, self.embedder.n_vocab)
 
     def test_n_dim(self):
+        self.embedder.build()
         self.assertEqual(3, self.embedder.n_dim)
         self.assertEqual(
             self.embedder._embedding_size,
@@ -50,38 +66,47 @@ class FastTextTestCase(TestCase):
         )
 
     def test_get_index(self):
+        self.embedder.build()
         self.assertEqual(2, self.embedder.get_index('gb'))
 
     def test_get_index_oov(self):
+        self.embedder.build()
         self.assertEqual(-1, self.embedder.get_index('haha'))
 
     def test_get_word(self):
+        self.embedder.build()
         self.assertEqual('薄餡', self.embedder.get_word(0))
 
     def test_get_word_oov(self):
+        self.embedder.build()
         self.assertIsNone(self.embedder.get_word(10))
 
     def test_getitem_string(self):
+        self.embedder.build()
         self.assertEqual(
             np.array([0.14, 0.15, 0.16]).astype(np.float32).tolist(),
             self.embedder['Alvin'].tolist(),
         )
 
     def test_getitem_int(self):
+        self.embedder.build()
         self.assertEqual(
             np.array([0.14, 0.15, 0.16]).astype(np.float32).tolist(),
             self.embedder[4].tolist(),
         )
 
     def test_getitem_string_oov(self):
+        self.embedder.build()
         with self.assertRaises(OOVError):
             self.embedder['kerker']
 
     def test_getitem_int_oov(self):
+        self.embedder.build()
         with self.assertRaises(OOVError):
             self.embedder[100]
 
     def test_getitem_wrong_type(self):
+        self.embedder.build()
         with self.assertRaises(TypeError):
             self.embedder[12.3]
             self.embedder[[123]]

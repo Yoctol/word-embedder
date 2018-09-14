@@ -9,13 +9,18 @@ from .oov_error import OOVError
 class FastText(BaseEmbedder):
 
     def __init__(self, path: str):
+        self._path = path
+        self._is_built = False
 
-        (
-            self._embedding_size,
-            self._vocab_size,
-            self._vocab_list,
-            self._word_vectors,
-        ) = self._load_data(fname=path)
+    def build(self):
+        if not self._is_built:
+            (
+                self._embedding_size,
+                self._vocab_size,
+                self._vocab_list,
+                self._word_vectors,
+            ) = self._load_data(fname=self._path)
+            self._is_built = True
 
     def __getitem__(self, key) -> np.ndarray:
         """Get a word vector

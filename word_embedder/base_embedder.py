@@ -16,6 +16,10 @@ class BaseEmbedder:
         raise NotImplementedError
 
     @abstractmethod
+    def build(self):
+        raise NotImplementedError
+
+    @abstractmethod
     def vocab_size(self) -> int:
         raise NotImplementedError
 
