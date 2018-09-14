@@ -9,6 +9,7 @@ name = "pypi"
 
 mkdir_p = "*"
 numpy = "*"
+python-dotenv = "*"
 
 
 [dev-packages]

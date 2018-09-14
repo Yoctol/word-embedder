@@ -1,9 +1,12 @@
 import io
+from os.path import isfile, basename
+import os
 
 import numpy as np
 
 from .base_embedder import BaseEmbedder
 from .oov_error import OOVError
+from .utils import download_data, extract_gz
 
 
 class FastText(BaseEmbedder):
@@ -14,6 +17,14 @@ class FastText(BaseEmbedder):
 
     def build(self):
         if not self._is_built:
+            if not isfile(self._path):
+                # if data is not at self._path
+                # download it through url in .env
+                download_data(
+                    url=os.getenv(basename(self._path)),
+                    output_path=self._path + '.gz',
+                )
+                extract_gz(self._path + '.gz')
             (
                 self._embedding_size,
                 self._vocab_size,
