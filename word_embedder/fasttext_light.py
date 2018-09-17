@@ -47,16 +47,17 @@ class FastTextLight(FastText):
     @staticmethod
     def _load_data(path: str):
         fin = io.open(path, 'rb')
-        vocab_size, embedding_size = map(int, fin.readline().split())
+        first_line = fin.readline().decode('utf8')
+        vocab_size, embedding_size = map(int, first_line.split())
 
         vocab_list = ['0'] * vocab_size
         byte_pos = [0] * (vocab_size + 1)
         byte_pos[0] = fin.tell()
 
         for idx in range(vocab_size):
-            line = fin.readline().decode('utf8')
-            tokens = line.rstrip().split(' ')
-            vocab_list[idx] = tokens[0]
+            line = fin.readline()
+            tokens = line.rstrip().split(b' ')
+            vocab_list[idx] = tokens[0].decode('utf8')
             byte_pos[idx + 1] = fin.tell()
         fin.close()
         return embedding_size, vocab_size, vocab_list, byte_pos
