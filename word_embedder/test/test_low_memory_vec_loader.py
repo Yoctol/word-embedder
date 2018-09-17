@@ -13,7 +13,9 @@ class LowMemoryVecLoaderTestCase(TestCase):
 
     def setUp(self):
         self.loader = LowMemoryVecLoader(
-            join(ROOT_DIR, 'data/fasttext.vec'))
+            path=join(ROOT_DIR, 'data/fasttext.vec'),
+            byte_pos=[4, 23, 42, 57, 75, 95],
+        )
 
     def test_getitem_forward(self):
         self.assertEqual(

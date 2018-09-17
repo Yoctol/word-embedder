@@ -32,30 +32,19 @@ class FastTextTestTemplate:
                  '_word_vectors', '_vocab_list']),
             set(self.embedder.__dict__.keys()),
         )
+        self.assertEqual(self.words, self.embedder._vocab_list)
         self.assertEqual(
-            ['薄餡', '隼興', 'gb', 'en', 'Alvin'],
-            self.embedder._vocab_list,
-        )
-        self.assertEqual(
-            np.array(
-                [
-                    [0.1, 0.2, 0.3],
-                    [0.4, 0.5, 0.6],
-                    [0.7, 0.8, 0.9],
-                    [0.11, 0.12, 0.13],
-                    [0.14, 0.15, 0.16],
-                ],
-            ).astype(np.float32).tolist(),
+            self.vectors.tolist(),
             self.embedder._word_vectors.tolist(),
         )
 
     def test_vocab_size(self):
         self.embedder.build()
-        self.assertEqual(5, self.embedder.n_vocab)
+        self.assertEqual(len(self.words), self.embedder.n_vocab)
 
     def test_n_dim(self):
         self.embedder.build()
-        self.assertEqual(3, self.embedder.n_dim)
+        self.assertEqual(self.vectors.shape[1], self.embedder.n_dim)
         self.assertEqual(
             self.embedder._embedding_size,
             self.embedder.n_dim,
@@ -79,17 +68,21 @@ class FastTextTestTemplate:
 
     def test_getitem_string(self):
         self.embedder.build()
-        self.assertEqual(
-            np.array([0.14, 0.15, 0.16]).astype(np.float32).tolist(),
-            self.embedder['Alvin'].tolist(),
-        )
+        for i in range(len(self.words)):
+            with self.subTest(i=i):
+                self.assertEqual(
+                    self.vectors[i].tolist(),
+                    self.embedder[self.words[i]].tolist(),
+                )
 
     def test_getitem_int(self):
         self.embedder.build()
-        self.assertEqual(
-            np.array([0.14, 0.15, 0.16]).astype(np.float32).tolist(),
-            self.embedder[4].tolist(),
-        )
+        for i in range(len(self.words)):
+            with self.subTest(i=i):
+                self.assertEqual(
+                    self.vectors[i].tolist(),
+                    self.embedder[i].tolist(),
+                )
 
     def test_getitem_string_oov(self):
         self.embedder.build()
@@ -113,3 +106,13 @@ class FastTextTestCase(FastTextTestTemplate, TestCase):
     def setUp(self):
         self.embedder = FastText(
             path=join(ROOT_DIR, 'data/fasttext.vec'))
+        self.words = ['薄餡', '隼興', 'gb', 'en', 'Alvin']
+        self.vectors = np.array(
+            [
+                [0.1, 0.2, 0.3],
+                [0.4, 0.5, 0.6],
+                [0.7, 0.8, 0.9],
+                [0.11, 0.12, 0.13],
+                [0.14, 0.15, 0.16],
+            ],
+        ).astype(np.float32)
