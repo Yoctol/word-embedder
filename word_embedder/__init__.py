@@ -3,7 +3,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from .library import Library
-from .keyed_vectors_light import KeyVectorsLight
+from .keyed_vectors_light import KeyedVectorsLight
 
 
 load_dotenv()
@@ -14,5 +14,5 @@ ROOT_DIR = path.parent
 lib = Library()
 lib.register(
     'ChineseFastTextLight',
-    KeyVectorsLight(path=str(ROOT_DIR.joinpath('data/ft.zh.300.vec').resolve())),
+    KeyedVectorsLight(path=str(ROOT_DIR.joinpath('data/ft.zh.300.vec').resolve())),
 )
