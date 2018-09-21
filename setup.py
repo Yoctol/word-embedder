@@ -21,7 +21,11 @@ setup(
     license="MIT",
     author="Solumilken",
     packages=find_packages(),
-    install_requires=[],
+    install_requires=[
+        "mkdir-p>=0.1.1",
+        "numpy>=1.15.1",
+        "python-dotenv==0.9.1",
+    ],
     long_description=long_description,
     classifiers=[
         "Programming Language :: Python",
