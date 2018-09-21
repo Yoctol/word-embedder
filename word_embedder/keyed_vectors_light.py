@@ -5,7 +5,7 @@ import os
 
 import numpy as np
 
-from .fasttext import FastText
+from .keyed_vectors import KeyedVectors
 from .oov_error import OOVError
 from .utils import download_data, extract_gz
 
@@ -68,7 +68,7 @@ def _load_bin_file(path: str):
     return embedding_size, vocab_size, vocab_list, byte_pos
 
 
-class FastTextLight(FastText):
+class KeyedVectorsLight(KeyedVectors):
 
     def __init__(self, path: str, binary: bool=False):
         super().__init__(path=path, binary=binary)
