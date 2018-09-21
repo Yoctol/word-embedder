@@ -9,10 +9,70 @@ from .oov_error import OOVError
 from .utils import download_data, extract_gz
 
 
+def _load_text_file(path: str):
+    fin = io.open(
+        path, 'r',
+        encoding='utf-8',
+        newline='\n',
+        errors='ignore',
+    )
+    vocab_size, embedding_size = map(int, fin.readline().split())
+
+    vocab_list = ['0'] * vocab_size
+    word_vectors = np.random.rand(
+        vocab_size, embedding_size).astype(np.float32)
+
+    for idx, line in enumerate(fin):
+        tokens = line.rstrip().split(' ')
+        vocab_list[idx] = tokens[0]
+        vector = list(map(float, tokens[1:]))
+        word_vectors[idx, :] = np.array(vector).astype(np.float32)
+    fin.close()
+    return embedding_size, vocab_size, vocab_list, word_vectors
+
+
+def _load_bin_file(path: str):
+    # load .bin file
+    # Note that float in this file should be float32
+    # float64 is not allowed
+    fin = open(path, 'rb')
+    header = fin.readline().decode('utf8')
+    vocab_size, embedding_size = (int(x) for x in header.split())
+
+    # init vocab list
+    vocab_list = ['0'] * vocab_size
+    word_vectors = np.random.rand(
+        vocab_size, embedding_size).astype(np.float32)
+
+    binary_len = 4 * embedding_size  # float32
+    for idx in range(vocab_size):
+        # mixed text and binary: read text first, then binary
+        word = []
+        while True:
+            ch = fin.read(1)
+            if ch == b' ':
+                break
+            if ch == b'':
+                raise EOFError(
+                    "unexpected end of input; is count incorrect or file otherwise damaged?")
+            # ignore newlines in front of words (some binary files have)
+            if ch != b'\n':
+                word.append(ch)
+
+        vocab_list[idx] = b''.join(word).decode('utf8')
+        word_vectors[idx, :] = np.frombuffer(
+            fin.read(binary_len),
+            dtype='float32',
+        )
+    fin.close()
+    return embedding_size, vocab_size, vocab_list, word_vectors
+
+
 class FastText(BaseEmbedder):
 
-    def __init__(self, path: str):
+    def __init__(self, path: str, binary: bool=False):
         self._path = path
+        self._binary = binary
         self._is_built = False
 
     def build(self):
@@ -30,7 +90,10 @@ class FastText(BaseEmbedder):
                 self._vocab_size,
                 self._vocab_list,
                 self._word_vectors,
-            ) = self._load_data(fname=self._path)
+            ) = self._load_data(
+                path=self._path,
+                binary=self._binary,
+            )
             self._is_built = True
 
     def __getitem__(self, key) -> np.ndarray:
@@ -88,23 +151,8 @@ class FastText(BaseEmbedder):
             raise OOVError
 
     @staticmethod
-    def _load_data(fname: str):
-        fin = io.open(
-            fname, 'r',
-            encoding='utf-8',
-            newline='\n',
-            errors='ignore',
-        )
-        vocab_size, embedding_size = map(int, fin.readline().split())
-
-        vocab_list = ['0'] * vocab_size
-        word_vectors = np.random.rand(
-            vocab_size, embedding_size).astype(np.float32)
-
-        for idx, line in enumerate(fin):
-            tokens = line.rstrip().split(' ')
-            vocab_list[idx] = tokens[0]
-            vector = list(map(float, tokens[1:]))
-            word_vectors[idx, :] = np.array(vector).astype(np.float32)
-        fin.close()
-        return embedding_size, vocab_size, vocab_list, word_vectors
+    def _load_data(path: str, binary: bool=False):
+        if binary:
+            return _load_bin_file(path=path)
+        else:
+            return _load_text_file(path=path)

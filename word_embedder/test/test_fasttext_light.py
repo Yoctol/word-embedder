@@ -27,20 +27,67 @@ class FastTextLightTestCase(FastTextTestTemplate, TestCase):
 
     def test_correctly_create_instance(self):
         self.assertEqual(
-            set(['_path', '_is_built']),
+            set(['_path', '_binary', '_is_built']),
             set(self.embedder.__dict__.keys()),
         )
         self.assertEqual(
             join(ROOT_DIR, 'data/fasttext.vec'),
             self.embedder._path,
         )
+        self.assertFalse(self.embedder._binary)
         self.assertFalse(self.embedder._is_built)
 
     def test_build(self):
         self.embedder.build()
         self.assertTrue(self.embedder._is_built)
         self.assertEqual(
-            set(['_path', '_is_built',
+            set(['_path', '_binary', '_is_built',
+                 '_embedding_size', '_vocab_size',
+                 '_vocab_list', '_byte_pos',
+                 '_vloader']),
+            set(self.embedder.__dict__.keys()),
+        )
+        self.assertEqual(
+            ['薄餡', '隼興', 'gb', 'en', 'Alvin'],
+            self.embedder._vocab_list,
+        )
+
+
+class FastTextLightBinTestCase(FastTextTestTemplate, TestCase):
+
+    def setUp(self):
+        self.embedder = FastTextLight(
+            path=join(ROOT_DIR, 'data/fasttext.bin'),
+            binary=True,
+        )
+        self.words = ['薄餡', '隼興', 'gb', 'en', 'Alvin']
+        self.vectors = np.array(
+            [
+                [0.1, 0.2, 0.3],
+                [0.4, 0.5, 0.6],
+                [0.7, 0.8, 0.9],
+                [0.11, 0.12, 0.13],
+                [0.14, 0.15, 0.16],
+            ],
+        ).astype(np.float32)
+
+    def test_correctly_create_instance(self):
+        self.assertEqual(
+            set(['_path', '_binary', '_is_built']),
+            set(self.embedder.__dict__.keys()),
+        )
+        self.assertEqual(
+            join(ROOT_DIR, 'data/fasttext.bin'),
+            self.embedder._path,
+        )
+        self.assertTrue(self.embedder._binary)
+        self.assertFalse(self.embedder._is_built)
+
+    def test_build(self):
+        self.embedder.build()
+        self.assertTrue(self.embedder._is_built)
+        self.assertEqual(
+            set(['_path', '_binary', '_is_built',
                  '_embedding_size', '_vocab_size',
                  '_vocab_list', '_byte_pos',
                  '_vloader']),

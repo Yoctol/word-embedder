@@ -14,12 +14,8 @@ class FastTextTestTemplate:
 
     def test_correctly_create_instance(self):
         self.assertEqual(
-            set(['_path', '_is_built']),
+            set(['_path', '_binary', '_is_built']),
             set(self.embedder.__dict__.keys()),
-        )
-        self.assertEqual(
-            join(ROOT_DIR, 'data/fasttext.vec'),
-            self.embedder._path,
         )
         self.assertFalse(self.embedder._is_built)
 
@@ -27,7 +23,7 @@ class FastTextTestTemplate:
         self.embedder.build()
         self.assertTrue(self.embedder._is_built)
         self.assertEqual(
-            set(['_path', '_is_built',
+            set(['_path', '_binary', '_is_built',
                  '_embedding_size', '_vocab_size',
                  '_word_vectors', '_vocab_list']),
             set(self.embedder.__dict__.keys()),
@@ -116,3 +112,40 @@ class FastTextTestCase(FastTextTestTemplate, TestCase):
                 [0.14, 0.15, 0.16],
             ],
         ).astype(np.float32)
+
+    def test_is_binary(self):
+        self.assertFalse(self.embedder._binary)
+
+    def test_path(self):
+        self.assertEqual(
+            join(ROOT_DIR, 'data/fasttext.vec'),
+            self.embedder._path,
+        )
+
+
+class FastTextBinTestCase(FastTextTestTemplate, TestCase):
+
+    def setUp(self):
+        self.embedder = FastText(
+            path=join(ROOT_DIR, 'data/fasttext.bin'),
+            binary=True,
+        )
+        self.words = ['薄餡', '隼興', 'gb', 'en', 'Alvin']
+        self.vectors = np.array(
+            [
+                [0.1, 0.2, 0.3],
+                [0.4, 0.5, 0.6],
+                [0.7, 0.8, 0.9],
+                [0.11, 0.12, 0.13],
+                [0.14, 0.15, 0.16],
+            ],
+        ).astype(np.float32)
+
+    def test_is_binary(self):
+        self.assertTrue(self.embedder._binary)
+
+    def test_path(self):
+        self.assertEqual(
+            join(ROOT_DIR, 'data/fasttext.bin'),
+            self.embedder._path,
+        )
