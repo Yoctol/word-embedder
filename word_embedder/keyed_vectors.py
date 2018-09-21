@@ -4,7 +4,7 @@ import os
 
 import numpy as np
 
-from .base_embedder import BaseEmbedder
+from .base import BaseEmbedder
 from .oov_error import OOVError
 from .utils import download_data, extract_gz
 
@@ -68,7 +68,7 @@ def _load_bin_file(path: str):
     return embedding_size, vocab_size, vocab_list, word_vectors
 
 
-class FastText(BaseEmbedder):
+class KeyedVectors(BaseEmbedder):
 
     def __init__(self, path: str, binary: bool=False):
         self._path = path

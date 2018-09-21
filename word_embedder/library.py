@@ -17,7 +17,7 @@ class Library:
         else:
             raise KeyError('Please use anther name for new embedder')
 
-    def list_all_embedders(self) -> List[str]:
+    def list_all(self) -> List[str]:
         return list(self.library.keys())
 
     def __getitem__(self, name: str):

@@ -3,16 +3,16 @@ from os.path import abspath, dirname, join
 
 import numpy as np
 
-from ..fasttext_light import FastTextLight
-from .test_fasttext import FastTextTestTemplate
+from ..keyed_vectors_light import KeyedVectorsLight
+from .test_keyed_vectors import KeyedVectorsTestTemplate
 
 ROOT_DIR = dirname(abspath(__file__))
 
 
-class FastTextLightTestCase(FastTextTestTemplate, TestCase):
+class KeyedVectorsLightTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def setUp(self):
-        self.embedder = FastTextLight(
+        self.embedder = KeyedVectorsLight(
             path=join(ROOT_DIR, 'data/fasttext.vec'))
         self.words = ['薄餡', '隼興', 'gb', 'en', 'Alvin']
         self.vectors = np.array(
@@ -53,10 +53,10 @@ class FastTextLightTestCase(FastTextTestTemplate, TestCase):
         )
 
 
-class FastTextLightBinTestCase(FastTextTestTemplate, TestCase):
+class KeyedVectorsLightBinTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def setUp(self):
-        self.embedder = FastTextLight(
+        self.embedder = KeyedVectorsLight(
             path=join(ROOT_DIR, 'data/fasttext.bin'),
             binary=True,
         )
