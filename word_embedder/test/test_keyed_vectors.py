@@ -3,14 +3,14 @@ from os.path import abspath, dirname, join
 
 import numpy as np
 
-from ..fasttext import FastText
+from ..keyed_vectors import KeyedVectors
 from ..oov_error import OOVError
 
 
 ROOT_DIR = dirname(abspath(__file__))
 
 
-class FastTextTestTemplate:
+class KeyedVectorsTestTemplate:
 
     def test_correctly_create_instance(self):
         self.assertEqual(
@@ -97,10 +97,10 @@ class FastTextTestTemplate:
             self.embedder[[123]]
 
 
-class FastTextTestCase(FastTextTestTemplate, TestCase):
+class KeyedVectorsTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def setUp(self):
-        self.embedder = FastText(
+        self.embedder = KeyedVectors(
             path=join(ROOT_DIR, 'data/fasttext.vec'))
         self.words = ['薄餡', '隼興', 'gb', 'en', 'Alvin']
         self.vectors = np.array(
@@ -123,10 +123,10 @@ class FastTextTestCase(FastTextTestTemplate, TestCase):
         )
 
 
-class FastTextBinTestCase(FastTextTestTemplate, TestCase):
+class KeyedVectorsBinTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def setUp(self):
-        self.embedder = FastText(
+        self.embedder = KeyedVectors(
             path=join(ROOT_DIR, 'data/fasttext.bin'),
             binary=True,
         )

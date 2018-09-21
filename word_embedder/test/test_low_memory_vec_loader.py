@@ -3,7 +3,7 @@ from os.path import abspath, dirname, join
 
 import numpy as np
 
-from ..fasttext_light import LowMemoryVecLoader
+from ..keyed_vectors_light import LowMemoryVecLoader
 
 
 ROOT_DIR = dirname(abspath(__file__))
