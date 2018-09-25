@@ -4,7 +4,7 @@ from os.path import abspath, dirname, join
 import numpy as np
 
 from ..keyed_vectors_light import KeyedVectorsLight
-from .test_keyed_vectors import KeyedVectorsTestTemplate
+from .keyed_vectors_test_template import KeyedVectorsTestTemplate
 
 ROOT_DIR = dirname(abspath(__file__))
 
