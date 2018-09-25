@@ -14,7 +14,7 @@ class KeyedVectorsTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def setUp(self):
         self.embedder = KeyedVectors(
-            path=join(ROOT_DIR, 'data/fasttext.vec'))
+            path=join(ROOT_DIR, 'data/example.vec'))
         self.words = ['薄餡', '隼興', 'gb', 'en', 'Alvin']
         self.vectors = np.array(
             [
@@ -31,7 +31,7 @@ class KeyedVectorsTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def test_path(self):
         self.assertEqual(
-            join(ROOT_DIR, 'data/fasttext.vec'),
+            join(ROOT_DIR, 'data/example.vec'),
             self.embedder._path,
         )
 
@@ -40,7 +40,7 @@ class KeyedVectorsBinTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def setUp(self):
         self.embedder = KeyedVectors(
-            path=join(ROOT_DIR, 'data/fasttext.bin'),
+            path=join(ROOT_DIR, 'data/example.bin'),
             binary=True,
         )
         self.words = ['薄餡', '隼興', 'gb', 'en', 'Alvin']
@@ -59,6 +59,6 @@ class KeyedVectorsBinTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def test_path(self):
         self.assertEqual(
-            join(ROOT_DIR, 'data/fasttext.bin'),
+            join(ROOT_DIR, 'data/example.bin'),
             self.embedder._path,
         )
