@@ -13,7 +13,7 @@ class KeyedVectorsLightTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def setUp(self):
         self.embedder = KeyedVectorsLight(
-            path=join(ROOT_DIR, 'data/fasttext.vec'))
+            path=join(ROOT_DIR, 'data/example.vec'))
         self.words = ['薄餡', '隼興', 'gb', 'en', 'Alvin']
         self.vectors = np.array(
             [
@@ -31,7 +31,7 @@ class KeyedVectorsLightTestCase(KeyedVectorsTestTemplate, TestCase):
             set(self.embedder.__dict__.keys()),
         )
         self.assertEqual(
-            join(ROOT_DIR, 'data/fasttext.vec'),
+            join(ROOT_DIR, 'data/example.vec'),
             self.embedder._path,
         )
         self.assertFalse(self.embedder._binary)
@@ -57,7 +57,7 @@ class KeyedVectorsLightBinTestCase(KeyedVectorsTestTemplate, TestCase):
 
     def setUp(self):
         self.embedder = KeyedVectorsLight(
-            path=join(ROOT_DIR, 'data/fasttext.bin'),
+            path=join(ROOT_DIR, 'data/example.bin'),
             binary=True,
         )
         self.words = ['薄餡', '隼興', 'gb', 'en', 'Alvin']
@@ -77,7 +77,7 @@ class KeyedVectorsLightBinTestCase(KeyedVectorsTestTemplate, TestCase):
             set(self.embedder.__dict__.keys()),
         )
         self.assertEqual(
-            join(ROOT_DIR, 'data/fasttext.bin'),
+            join(ROOT_DIR, 'data/example.bin'),
             self.embedder._path,
         )
         self.assertTrue(self.embedder._binary)

@@ -13,7 +13,7 @@ class LowMemoryVecLoaderTestCase(TestCase):
 
     def setUp(self):
         self.loader = LowMemoryVecLoader(
-            path=join(ROOT_DIR, 'data/fasttext.vec'),
+            path=join(ROOT_DIR, 'data/example.vec'),
             byte_pos=[4, 23, 42, 57, 75, 95],
         )
 
