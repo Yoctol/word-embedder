@@ -3,7 +3,7 @@ from abc import abstractmethod
 import numpy as np
 
 
-class BaseEmbedder:
+class Embedder:
 
     @abstractmethod
     def __getitem__(self, key) -> np.ndarray:
