@@ -1,5 +1,6 @@
 from unittest import TestCase
-from os.path import abspath, dirname, join, isfile
+from os.path import abspath, dirname, join, exists
+import os
 
 import numpy as np
 import pickle as pkl
@@ -35,23 +36,28 @@ class KeyedVectorsOnDiskTestCase(KeyedVectorsTestTemplate, TestCase):
             'syn0filename': cls.array_path,
         }
 
-        if not isfile(cls.array_path):
-            fp = np.memmap(
-                cls.array_path,
-                dtype=cls.vectors.dtype,
-                mode='w+',
-                shape=cls.vectors.shape,
-            )
-            fp[:] = cls.vectors[:]
-            del fp
+        fp = np.memmap(
+            cls.array_path,
+            dtype=cls.vectors.dtype,
+            mode='w+',
+            shape=cls.vectors.shape,
+        )
+        fp[:] = cls.vectors[:]
+        del fp
 
-            with open(cls.path, 'wb') as f:
-                pkl.dump(cls.param, f, protocol=pkl.HIGHEST_PROTOCOL)
+        with open(cls.path, 'wb') as f:
+            pkl.dump(cls.param, f, protocol=pkl.HIGHEST_PROTOCOL)
 
     def setUp(self):
         self.embedder = KeyedVectorsOnDisk(
             path=self.path,
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        for filepath in [cls.path, cls.array_path]:
+            if exists(filepath):
+                os.remove(filepath)
 
     def test_correctly_create_instance(self):
         self.assertEqual(
@@ -107,28 +113,34 @@ class KeyedVectorsOnDiskGivenArrayPathTestCase(
             'syn0filename': cls.array_path_old,
         }
 
-        if not isfile(cls.array_path):
-            for path, v in zip(
-                [cls.array_path_old, cls.array_path],
-                [cls.vectors_old, cls.vectors],
-            ):
-                fp = np.memmap(
-                    path,
-                    dtype=cls.vectors.dtype,
-                    mode='w+',
-                    shape=cls.vectors.shape,
-                )
-                fp[:] = v[:]
-                del fp
+        # if not isfile(cls.array_path):
+        for path, v in zip(
+            [cls.array_path_old, cls.array_path],
+            [cls.vectors_old, cls.vectors],
+        ):
+            fp = np.memmap(
+                path,
+                dtype=cls.vectors.dtype,
+                mode='w+',
+                shape=cls.vectors.shape,
+            )
+            fp[:] = v[:]
+            del fp
 
-            with open(cls.path, 'wb') as f:
-                pkl.dump(cls.param, f, protocol=pkl.HIGHEST_PROTOCOL)
+        with open(cls.path, 'wb') as f:
+            pkl.dump(cls.param, f, protocol=pkl.HIGHEST_PROTOCOL)
 
     def setUp(self):
         self.embedder = KeyedVectorsOnDisk(
             path=self.path,
             array_path=self.array_path,
         )
+
+    @classmethod
+    def tearDownClass(cls):
+        for filepath in [cls.path, cls.array_path, cls.array_path_old]:
+            if exists(filepath):
+                os.remove(filepath)
 
     def test_correctly_create_instance(self):
         self.assertEqual(
