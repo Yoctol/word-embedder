@@ -10,13 +10,9 @@ try:
 except IOError:
     long_description = ""
 
-about = {}
-with open(os.path.join(here, "word_embedder", "__version__.py")) as f:
-    exec(f.read(), about)
-
 setup(
     name="word-embedder",
-    version=about["__version__"],
+    version="0.1.1",
     description="Word Embedder",
     license="MIT",
     author="Solumilken",
