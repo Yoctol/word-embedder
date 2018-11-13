@@ -25,7 +25,7 @@ class KeyedVectorsOnDisk(KeyedVectors):
     def __init__(
             self,
             path: str,
-            array_path: str=None,
+            array_path: str = None,
         ):
         self._path = path
         self._array_path = array_path
@@ -45,7 +45,7 @@ class KeyedVectorsOnDisk(KeyedVectors):
             self._is_built = True
 
     @staticmethod
-    def _load_data(path: str, array_path: str=None):
+    def _load_data(path: str, array_path: str = None):
         with open(path, 'rb') as f:
             f.seek(0)
             param = pkl.load(f)
