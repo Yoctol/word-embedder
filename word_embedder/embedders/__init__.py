@@ -3,13 +3,16 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from .library import Library
-from .keyed_vectors_light import KeyedVectorsLight
+
+from .base import Embedder  # noqa
+from .keyed_vectors import KeyedVectors   # noqa
+from .keyed_vectors_light import KeyedVectorsLight   # noqa
+from .keyed_vectors_on_disk import KeyedVectorsOnDisk  # noqa
 
 
 load_dotenv()
 
-path = Path('.')
-ROOT_DIR = path.parent
+ROOT_DIR = Path(__file__).parent
 
 lib = Library()
 lib.register(
