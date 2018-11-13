@@ -12,7 +12,7 @@ except IOError:
 
 setup(
     name="word-embedder",
-    version="0.1.1",
+    version="1.0.0",
     description="Word Embedder",
     license="MIT",
     author="Solumilken",
