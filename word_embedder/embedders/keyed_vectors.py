@@ -1,10 +1,12 @@
 import io
+import warnings
 from os.path import isfile, basename
 import os
+from typing import List
 
 import numpy as np
 
-from .base import BaseEmbedder
+from .base import Embedder
 from .oov_error import OOVError
 from .utils import download_data, extract_gz
 
@@ -68,7 +70,7 @@ def _load_bin_file(path: str):
     return embedding_size, vocab_size, vocab_list, word_vectors
 
 
-class KeyedVectors(BaseEmbedder):
+class KeyedVectors(Embedder):
 
     def __init__(self, path: str, binary: bool = False):
         self._path = path
@@ -124,6 +126,10 @@ class KeyedVectors(BaseEmbedder):
         """Embedding size"""
         return self._embedding_size
 
+    @property
+    def vocab(self) -> List[str]:
+        return self._vocab_list
+
     def get_index(self, word: str) -> int:
         try:
             index = self._vocab_list.index(word)
@@ -136,11 +142,9 @@ class KeyedVectors(BaseEmbedder):
         try:
             word = self._vocab_list[index]
         except IndexError:
-            print(
-                'index [{}] out of range (max vocab size = {})'.format(
-                    index,
-                    self._vocab_size,
-                ),
+            warnings.warn(
+                f"index [{index}] out of range (max vocab size = {self._vocab_size})",
+                RuntimeWarning,
             )
         return word
 

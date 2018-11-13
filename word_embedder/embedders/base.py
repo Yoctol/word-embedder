@@ -1,9 +1,10 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod, abstractproperty
+from typing import List
 
 import numpy as np
 
 
-class BaseEmbedder:
+class Embedder(ABC):
 
     @abstractmethod
     def __getitem__(self, key) -> np.ndarray:
@@ -19,12 +20,16 @@ class BaseEmbedder:
     def build(self):
         raise NotImplementedError
 
-    @abstractmethod
-    def vocab_size(self) -> int:
+    @abstractproperty
+    def n_vocab(self) -> int:
         raise NotImplementedError
 
-    @abstractmethod
+    @abstractproperty
     def n_dim(self) -> int:
+        raise NotImplementedError
+
+    @abstractproperty
+    def vocab(self) -> List[str]:
         raise NotImplementedError
 
     @abstractmethod
