@@ -1,9 +1,16 @@
 language: python
 python:
-  - "3.6"
+- '3.6'
 install:
- - pip install pipenv
- - pipenv install --dev
+- make install
 script:
- - python -m flake8 .
- - python -m unittest
+- make lint
+- make test
+deploy:
+  provider: pypi
+  user: solumilken
+  password:
+    secure: I/9N9WR+tjMVc9CeUlRi2wSZk2F/gUb33GlBh9XPOJfzOJ7qF1XnABY1cd30pIr0MJhAV9UE2czna1hbuKoBmhvZNgNYMEDNLyuJTU04DSIE0KQMf4fnzp/6vHGVslRoMDgLN4Cih34o/CObadVj1lyhl3HHcXchmO8/cTTq9WDHJrU5ngtqjr9W1v5CxhtyL46lHLvaOnwGXSYpGbv44r/zVgEMwq6a/5/YtDqs9FPehcP13gARd6iYcCk9xkmqNyPRsuiafHc5nfK1RfuySEVi1mSYYZh5FQ8qDvZkmU3E0N6IP3eLmx4Py+8w2UkLrdsJBe+XfpmN7o1BM2xXMBO937Iewlc9w+4l2yjlt+vi8RKl9KWPb0ziaOrHHjl5RcjHxxHtq8eS/d5SphDkqk5RPVv4FCOcROLu8CQGaOHqc5qgSxk283MgM5sBYIDAlJrRtja3GNO96E6gEJCv4NA2SVeOEkBA9FDgPNO5OT/7e3i/5aIvxfyjcPypxSml9J12cCxKcnsyP238iJ/RAedpZPauJaMgdjof+utQUpjitod2vM42WVl3akpSOjDcWD3y5RY/au4N6bTnmKcWGbt6I/2cJoTvoPMwBOIistrlIGYDSxrfFWJma2GSuSgX/0xky7zvBItmsjx8ZNOxalRJyrMq++2KS5KjWN9DnjI=
+  distributions: sdist bdist_wheel
+  on:
+    tags: true

@@ -70,7 +70,7 @@ def _load_bin_file(path: str):
 
 class KeyedVectors(BaseEmbedder):
 
-    def __init__(self, path: str, binary: bool=False):
+    def __init__(self, path: str, binary: bool = False):
         self._path = path
         self._binary = binary
         self._is_built = False
@@ -151,7 +151,7 @@ class KeyedVectors(BaseEmbedder):
             raise OOVError
 
     @staticmethod
-    def _load_data(path: str, binary: bool=False):
+    def _load_data(path: str, binary: bool = False):
         if binary:
             return _load_bin_file(path=path)
         else:

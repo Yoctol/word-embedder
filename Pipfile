@@ -14,8 +14,7 @@ python-dotenv = "*"
 
 [dev-packages]
 
-"flake8" = "*"
-"flake8-config-yoctol" = "==0.0.8"
+"flake8-config-yoctol" = ">=0.0.11"
 ipdb = "*"
 
 

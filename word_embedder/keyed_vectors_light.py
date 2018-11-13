@@ -70,7 +70,7 @@ def _load_bin_file(path: str):
 
 class KeyedVectorsLight(KeyedVectors):
 
-    def __init__(self, path: str, binary: bool=False):
+    def __init__(self, path: str, binary: bool = False):
         super().__init__(path=path, binary=binary)
 
     def build(self):
@@ -110,7 +110,7 @@ class KeyedVectorsLight(KeyedVectors):
             raise OOVError
 
     @staticmethod
-    def _load_data(path: str, binary: bool=False):
+    def _load_data(path: str, binary: bool = False):
         if binary:
             return _load_bin_file(path=path)
         else:
