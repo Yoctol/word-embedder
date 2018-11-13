@@ -1,4 +1,5 @@
 import io
+import warnings
 from os.path import isfile, basename
 import os
 from typing import List
@@ -141,11 +142,9 @@ class KeyedVectors(Embedder):
         try:
             word = self._vocab_list[index]
         except IndexError:
-            print(
-                'index [{}] out of range (max vocab size = {})'.format(
-                    index,
-                    self._vocab_size,
-                ),
+            warnings.warn(
+                f"index [{index}] out of range (max vocab size = {self._vocab_size})",
+                RuntimeWarning,
             )
         return word
 
