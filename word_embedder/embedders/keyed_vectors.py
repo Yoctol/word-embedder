@@ -1,6 +1,7 @@
 import io
 from os.path import isfile, basename
 import os
+from typing import List
 
 import numpy as np
 
@@ -123,6 +124,10 @@ class KeyedVectors(Embedder):
     def n_dim(self) -> int:
         """Embedding size"""
         return self._embedding_size
+
+    @property
+    def vocab(self) -> List[str]:
+        return self._vocab_list
 
     def get_index(self, word: str) -> int:
         try:
