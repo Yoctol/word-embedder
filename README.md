@@ -1,4 +1,4 @@
-# word-embedder
+# Word Embedder
 
 [![travis][travis-image]][travis-url]
 [![pypi][pypi-image]][pypi-url]
@@ -8,23 +8,27 @@
 [pypi-image]: https://img.shields.io/pypi/v/word-embedder.svg?style=flat
 [pypi-url]: https://pypi.python.org/pypi/word-embedder
 
-Get pretrained word embedding
+A wrapper for loading pretrained word embedding
 
 
-## Installation
+## Getting Started
 
-### Requirements
-* Linux
-* Python 3.6 and up
+### Prerequisites
 
-`$ pip install word-embedder`
+Python 3.6 and up
+
+### Installing
+
+```
+$ pip install word-embedder
+```
 
 ## Usage
 
 ### Lookup all existed embedders
 ```python
 
-from word_embedder import lib
+from word_embedder.embedders import lib
 
 lib.list_all_embedders()  # returns a list of embedder name
 
@@ -33,9 +37,10 @@ lib.list_all_embedders()  # returns a list of embedder name
 ### Use an existed embedder
 
 1. load an embedder called OHOH
+
 ```python
 
-from word_embedder import lib
+from word_embedder.embedders import lib
 
 name = 'OHOH'  # embedder name
 embedder = lib[name]
@@ -45,6 +50,7 @@ embedder = lib[name]
 2. extract a word vector
 
 - (1) given a word 'juice' (str)
+
     ```python
 
     word = 'juice'
@@ -56,6 +62,7 @@ embedder = lib[name]
     ```
 
 - (2) given an index 3 (int)
+
     ```python
 
     index = 3
@@ -65,3 +72,18 @@ embedder = lib[name]
     # OOVError would be raised.
 
     ```
+
+## For Development
+
+### Running the tests
+
+1. Coding style checking
+```
+$ make lint
+```
+
+2. Running unittests
+```
+$ make test
+```
+
